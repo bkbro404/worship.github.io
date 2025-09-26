@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ne">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>लगइन - ख्रीष्टियन गीत व्यवस्थापन</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --danger: #f44336;
+            --dark-bg: #1a1a1a;
+            --card-bg: #333;
+            --text-light: #f0f0f0;
+            --text-muted: #aaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-container {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: #444;
+            color: var(--text-light);
+            font-size: 16px;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: var(--danger);
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .password-strength {
+            margin-top: 5px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .password-requirements {
+            background-color: #2a2a2a;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .requirement:before {
+            content: "•";
+            margin-right: 5px;
+        }
+
+        .valid {
+            color: var(--primary);
+        }
+
+        .invalid {
+            color: var(--danger);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h1>प्रवेश गर्नुहोस्</h1>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="password-container">
+                    <input type="password" id="password" required placeholder="Enter your password">
+                    <span class="toggle-password" onclick="togglePassword()">🙈</span>
+                </div>
+                <div id="passwordStrength" class="password-strength"></div>
+                <div class="password-requirements">
+                    <div class="requirement" id="reqLength">At least 8 characters</div>
+                    <div class="requirement" id="reqUpper">At least 1 uppercase letter</div>
+                    <div class="requirement" id="reqNumber">At least 1 number</div>
+                    <div class="requirement" id="reqSpecial">At least 1 special character</div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+
+            <div id="errorMessage" class="error-message">Incorrect email or password</div>
+        </form>
+
+        <div class="text-center text-muted mt-3">Admin access only</div>
+    </div>
+
+    <!-- Add Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+    <script>
+        // Initialize Firebase with your config
+        const firebaseConfig = {
+            apiKey: "AIzaSyArWH_oUAtB0m7zS_fAW0mwgGa_gli3YoY",
+            authDomain: "tharu-bhajan.firebaseapp.com",
+            databaseURL: "https://tharu-bhajan-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "tharu-bhajan",
+            storageBucket: "tharu-bhajan.firebasestorage.app",
+            messagingSenderId: "1064691828677",
+            appId: "1:1064691828677:web:05a6685b650911339dadac",
+            measurementId: "G-7WWMJPLHDB"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+         // Admin credentials
+         const ADMIN_EMAIL = "chaudharybibek806@gmail.com";
+        const ADMIN_PASS = "chaudhary404@#";
+
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const toggleIcon = document.querySelector('.toggle-password');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.textContent = '🙉';
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.textContent = '🙈';
+            }
+        }
+
+        // Check password strength
+        document.getElementById('password').addEventListener('input', function () {
+            const password = this.value;
+            const strengthText = document.getElementById('passwordStrength');
+            const reqLength = document.getElementById('reqLength');
+            const reqUpper = document.getElementById('reqUpper');
+            const reqNumber = document.getElementById('reqNumber');
+            const reqSpecial = document.getElementById('reqSpecial');
+
+            // Check requirements
+            const hasLength = password.length >= 8;
+            const hasUpper = /[A-Z]/.test(password);
+            const hasNumber = /\d/.test(password);
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+            // Update requirement indicators
+            reqLength.classList.toggle('valid', hasLength);
+            reqUpper.classList.toggle('valid', hasUpper);
+            reqNumber.classList.toggle('valid', hasNumber);
+            reqSpecial.classList.toggle('valid', hasSpecial);
+
+            // Calculate strength
+            let strength = 0;
+            if (password.length > 0) strengthText.style.display = 'block';
+
+            if (hasLength) strength++;
+            if (hasUpper) strength++;
+            if (hasNumber) strength++;
+            if (hasSpecial) strength++;
+
+            // Display strength
+            if (password.length === 0) {
+                strengthText.style.display = 'none';
+            } else if (strength <= 1) {
+                strengthText.textContent = 'Low';
+                strengthText.style.color = 'var(--danger)';
+            } else if (strength <= 3) {
+                strengthText.textContent = 'Medium';
+                strengthText.style.color = 'orange';
+            } else {
+                strengthText.textContent = 'Strong';
+                strengthText.style.color = 'var(--primary)';
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('errorMessage');
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    if (email === ADMIN_EMAIL) {
+                        window.location.href = "admin.html";
+                    } else {
+                        window.location.href = "index.html";
+                    }
+                })
+                .catch((error) => {
+                    errorElement.textContent = "गलत इमेल वा पासवर्ड";
+                    errorElement.style.display = "block";
+                });
+        });
+
+        // Check if already logged in
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                if (user.email === ADMIN_EMAIL) {
+                    window.location.href = "admin.html";
+                } else {
+                    window.location.href = "index.html";
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

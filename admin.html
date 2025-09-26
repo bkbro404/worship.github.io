@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="ne">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵- ख्रीष्टियन गीत लिंक व्यवस्थापक (उन्नत)</title>
+    <style>
+        /* ===== BASE STYLES ===== */
+        :root {
+            --primary: #4CAF50;
+            --danger: #f44336;
+            --dark-bg: #1a1a1a;
+            --card-bg: #333;
+            --text-light: #f0f0f0;
+            --text-muted: #aaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* ===== IMPROVED LAYOUT ===== */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== CARD STYLES ===== */
+        .card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        /* ===== FORM IMPROVEMENTS ===== */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: #444;
+            color: var(--text-light);
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
+        }
+
+        /* ===== BUTTON STYLES ===== */
+        .btn {
+            padding: 12px 20px;
+            border-radius: 5px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #555;
+            color: var(--text-light);
+        }
+
+        .btn-outline:hover {
+            background: #444;
+        }
+
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== TABLE IMPROVEMENTS ===== */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #555;
+        }
+
+        .table th {
+            background-color: #2a2a2a;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+        }
+
+        .table tr:hover {
+            background-color: #3a3a3a;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-audio {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .badge-video {
+            background-color: #FF5722;
+            color: white;
+        }
+
+        /* ===== PLAYER SECTION ===== */
+        .player-section {
+            position: sticky;
+            bottom: 0;
+            background-color: #222;
+            padding: 15px;
+            border-top: 1px solid #444;
+            z-index: 100;
+        }
+
+        .player-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+        }
+
+        .player-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .player-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .player-info {
+            flex: 1;
+            margin-right: 15px;
+            overflow: hidden;
+        }
+
+        .player-info h3 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 5px;
+        }
+
+        .player-info p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* ===== LYRICS SECTION ===== */
+        .lyrics-section {
+            margin-top: 20px;
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .lyrics-display {
+            white-space: pre-line;
+            line-height: 1.8;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            margin-bottom: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .lyrics-edit {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            background-color: #444;
+            color: var(--text-light);
+            border: 1px solid #555;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 16px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+
+        .lyrics-toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* ===== SEARCH & FILTERS ===== */
+        .search-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-filter input {
+            flex: 1;
+        }
+
+        /* ===== MODAL STYLES ===== */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            transform: translateY(-20px);
+            transition: transform 0.3s;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .text-center {
+            text-align: center;
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+        }
+
+        .mt-3 {
+            margin-top: 15px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ===== LOADING ANIMATION ===== */
+        .loader {
+            border: 3px solid #444;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===== TOAST NOTIFICATIONS ===== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1100;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--primary);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Add this to your existing CSS in index.html */
+        #logoutBtn {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            /* Your primary green color */
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        #logoutBtn:hover {
+            background-color: #45a049;
+            /* Slightly darker green on hover */
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* If you want to add an icon to the logout button */
+        #logoutBtn::before {
+            /* content: "→"; */
+            font-weight: bold;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            #logoutBtn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+        }
+    </style>
+    <!-- Add Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header class="text-center">
+            <h1>🎵 ख्रीष्टियन गीत लिंक व्यवस्थापक</h1>
+            <p class="text-muted">YouTube अडियो/भिडियो लिंकहरू व्यवस्थापन गर्नुहोस्</p>
+            <button id="logoutBtn" class="btn btn-danger">
+                <span id="logoutBtnText">logout</span>
+            </button>
+        </header>
+
+        <div class="grid">
+            <!-- Link Management Card -->
+            <div class="card">
+                <h2>लिंक थप्नुहोस्</h2>
+
+                <div class="form-group">
+                    <label for="songId">गीत नं. <span class="text-muted">(अनिवार्य)</span></label>
+                    <input type="number" id="songId" placeholder="उदाहरण: 1, 2, 3...">
+                </div>
+
+                <div class="form-group">
+                    <label for="songTitle">गीत शीर्षक (नेपाली)</label>
+                    <input type="text" id="songTitle" placeholder="उदाहरण: प्रभुको महिमा गाऊँ">
+                </div>
+
+                <div class="form-group">
+                    <label for="songTitleRoman">गीत शीर्षक (रोमन)</label>
+                    <input type="text" id="songTitleRoman" placeholder="उदाहरण: Prabhuko Mahima Gaun">
+                </div>
+
+                <div class="form-group">
+                    <label for="mediaType">मिडिया प्रकार</label>
+                    <select id="mediaType">
+                        <option value="audio">अडियो</option>
+                        <option value="video">भिडियो</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="mediaLink">YouTube लिंक <span class="text-muted">(अनिवार्य)</span></label>
+                    <input type="text" id="mediaLink" placeholder="उदाहरण: https://youtu.be/xyz123">
+                </div>
+
+                <div class="form-group">
+                    <label for="songCategory">श्रेणी</label>
+                    <select id="songCategory">
+                        <option value="worship">आराधना</option>
+                        <option value="hymn">भजन</option>
+                        <option value="modern">आधुनिक</option>
+                        <option value="children">बालगीत</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="songNotes">नोटहरू</label>
+                    <textarea id="songNotes" rows="2" placeholder="वैकल्पिक नोटहरू..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="songLyrics">गीत बोलीहरू</label>
+                    <textarea id="songLyrics" rows="4" placeholder="गीतका बोलीहरू यहाँ लेख्नुहोस्..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button id="addLinkBtn" class="btn btn-primary">
+                        <span id="addBtnText">लिंक थप्नुहोस्</span>
+                        <span id="addBtnLoader" class="loader hidden"></span>
+                    </button>
+                    <button id="clearBtn" class="btn btn-outline">खाली गर्नुहोस्</button>
+                </div>
+            </div>
+
+            <!-- Quick Stats Card -->
+            <div class="card">
+                <h2>तथ्याङ्क</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3 id="totalSongs">0</h3>
+                        <p class="text-muted">जम्मा गीतहरू</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 id="totalAudio">0</h3>
+                        <p class="text-muted">अडियोहरू</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 id="totalVideo">0</h3>
+                        <p class="text-muted">भिडियोहरू</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 id="totalLyrics">0</h3>
+                        <p class="text-muted">गीत बोलीहरू</p>
+                    </div>
+                </div>
+
+                <!-- Search & Filters -->
+                <div class="mt-3">
+                    <div class="search-filter">
+                        <input type="text" id="searchInput" placeholder="गीत नं. वा शीर्षक खोज्नुहोस्...">
+                        <select id="filterCategory">
+                            <option value="all">सबै श्रेणीहरू</option>
+                            <option value="worship">आराधना</option>
+                            <option value="hymn">भजन</option>
+                            <option value="modern">आधुनिक</option>
+                            <option value="children">बालगीत</option>
+                        </select>
+                    </div>
+                    <div class="search-filter">
+                        <select id="filterMediaType">
+                            <option value="all">सबै प्रकार</option>
+                            <option value="audio">अडियो मात्र</option>
+                            <option value="video">भिडियो मात्र</option>
+                        </select>
+                        <button id="resetFilters" class="btn btn-outline">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Links Table Section -->
+        <div class="card mt-3">
+            <div class="table-header">
+                <h2>सबै लिंकहरू</h2>
+                <p id="tableInfo" class="text-muted">0 लिंकहरू देखाइएको</p>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>गीत नं.</th>
+                            <th>शीर्षक</th>
+                            <th>प्रकार</th>
+                            <th>श्रेणी</th>
+                            <th>लिंक</th>
+                            <th>कार्यहरू</th>
+                        </tr>
+                    </thead>
+                    <tbody id="linksTableBody">
+                        <!-- Links will be added here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player Section (Fixed at Bottom) -->
+    <div id="playerSection" class="player-section hidden">
+        <div class="player-wrapper">
+            <iframe id="mediaPlayer" src="" allowfullscreen></iframe>
+        </div>
+
+        <!-- Lyrics Section -->
+        <div class="lyrics-section">
+            <h3 id="lyricsTitle">गीत बोलीहरू</h3>
+            <div id="lyricsDisplay" class="lyrics-display">गीत चयन गर्नुहोस्...</div>
+
+            <!-- Lyrics Editor (Admin Only) -->
+            <div id="lyricsEditorContainer" class="hidden">
+                <div class="lyrics-toolbar">
+                    <button id="saveLyricsBtn" class="btn btn-primary btn-sm">Apply</button> <!--सुरक्षित गर्नुहोस् -->
+                    <button id="cancelLyricsBtn" class="btn btn-outline btn-sm">Remove</button> <!--रद्द गर्नुहोस्-->
+                </div>
+                <textarea id="lyricsEditor" class="lyrics-edit"></textarea>
+            </div>
+
+            <div id="lyricsViewControls">
+                <button id="editLyricsBtn" class="btn btn-outline btn-sm">सम्पादन गर्नुहोस्</button>
+            </div>
+        </div>
+
+        <div class="player-controls">
+            <div class="player-info">
+                <h3 id="nowPlayingTitle">कुनै गीत चलिरहेको छैन</h3>
+                <p id="nowPlayingType" class="text-muted">लिंक चयन गर्नुहोस्</p>
+            </div>
+            <div class="btn-group">
+                <button id="prevSongBtn" class="btn btn-outline btn-sm" title="अघिल्लो गीत">&larr;</button>
+                <button id="closePlayerBtn" class="btn btn-outline btn-sm">बन्द गर्नुहोस्</button>
+                <button id="nextSongBtn" class="btn btn-outline btn-sm" title="अर्को गीत">&rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Dialogs -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">पुष्टि गर्नुहोस्</h3>
+                <button id="closeModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">तपाईं निश्चित हुनुहुन्छ?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelModalBtn" class="btn btn-outline">रद्द गर्नुहोस्</button>
+                <button id="confirmModalBtn" class="btn btn-danger">पुष्टि गर्नुहोस्</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // Initialize Firebase with your config
+        const firebaseConfig = {
+            apiKey: "AIzaSyArWH_oUAtB0m7zS_fAW0mwgGa_gli3YoY",
+            authDomain: "tharu-bhajan.firebaseapp.com",
+            databaseURL: "https://tharu-bhajan-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "tharu-bhajan",
+            storageBucket: "tharu-bhajan.firebasestorage.app",
+            messagingSenderId: "1064691828677",
+            appId: "1:1064691828677:web:05a6685b650911339dadac",
+            measurementId: "G-7WWMJPLHDB"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const auth = firebase.auth();
+
+         // Check admin status
+         auth.onAuthStateChanged((user) => {
+            if (!user || user.email !== "chaudharybibek806@gmail.com") {
+                window.location.href = "login.html";
+            }
+        });
+
+        // DOM Elements
+        const elements = {
+            // Form elements
+            songId: document.getElementById("songId"),
+            songTitle: document.getElementById("songTitle"),
+            songTitleRoman: document.getElementById("songTitleRoman"),
+            mediaType: document.getElementById("mediaType"),
+            mediaLink: document.getElementById("mediaLink"),
+            songCategory: document.getElementById("songCategory"),
+            songNotes: document.getElementById("songNotes"),
+            songLyrics: document.getElementById("songLyrics"),
+            addLinkBtn: document.getElementById("addLinkBtn"),
+            clearBtn: document.getElementById("clearBtn"),
+
+            // Table elements
+            linksTableBody: document.getElementById("linksTableBody"),
+            searchInput: document.getElementById("searchInput"),
+            filterCategory: document.getElementById("filterCategory"),
+            filterMediaType: document.getElementById("filterMediaType"),
+            resetFilters: document.getElementById("resetFilters"),
+            tableInfo: document.getElementById("tableInfo"),
+
+            // Stats elements
+            totalSongs: document.getElementById("totalSongs"),
+            totalAudio: document.getElementById("totalAudio"),
+            totalVideo: document.getElementById("totalVideo"),
+            totalLyrics: document.getElementById("totalLyrics"),
+
+            // Player elements
+            playerSection: document.getElementById("playerSection"),
+            mediaPlayer: document.getElementById("mediaPlayer"),
+            nowPlayingTitle: document.getElementById("nowPlayingTitle"),
+            nowPlayingType: document.getElementById("nowPlayingType"),
+            closePlayerBtn: document.getElementById("closePlayerBtn"),
+            prevSongBtn: document.getElementById("prevSongBtn"),
+            nextSongBtn: document.getElementById("nextSongBtn"),
+
+            // Lyrics elements
+            lyricsTitle: document.getElementById("lyricsTitle"),
+            lyricsDisplay: document.getElementById("lyricsDisplay"),
+            lyricsEditorContainer: document.getElementById("lyricsEditorContainer"),
+            lyricsEditor: document.getElementById("lyricsEditor"),
+            editLyricsBtn: document.getElementById("editLyricsBtn"),
+            saveLyricsBtn: document.getElementById("saveLyricsBtn"),
+            cancelLyricsBtn: document.getElementById("cancelLyricsBtn"),
+            lyricsViewControls: document.getElementById("lyricsViewControls"),
+
+            // Modal elements
+            confirmModal: document.getElementById("confirmModal"),
+            modalTitle: document.getElementById("modalTitle"),
+            modalMessage: document.getElementById("modalMessage"),
+            closeModalBtn: document.getElementById("closeModalBtn"),
+            cancelModalBtn: document.getElementById("cancelModalBtn"),
+            confirmModalBtn: document.getElementById("confirmModalBtn"),
+
+            // Toast element
+            toast: document.getElementById("toast"),
+
+            // Button text/loader
+            addBtnText: document.getElementById("addBtnText"),
+            addBtnLoader: document.getElementById("addBtnLoader")
+        };
+
+        // App State
+        const state = {
+            songs: [],
+            filteredSongs: [],
+            currentEditingId: null,
+            currentPlayingIndex: null,
+            modalCallback: null,
+            currentUser: null
+        };
+
+        // ========================
+        // AUTHENTICATION FUNCTIONS
+        // ========================
+
+        // Check authentication state
+        function checkAuth() {
+            auth.onAuthStateChanged(user => {
+                if (user && user.email === "chaudharybibek806@gmail.com") {
+                    state.currentUser = user;
+                    initApp();
+                } else {
+                    window.location.href = "login.html";
+                }
+            });
+        }
+
+        // Logout function
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = "login.html";
+            });
+        }
+
+        // ========================
+        // FIREBASE DATA FUNCTIONS
+        // ========================
+
+        // Initialize app data
+        function initApp() {
+            // Load songs from Firebase
+            database.ref('songs').on('value', snapshot => {
+                const songsData = snapshot.val();
+                if (songsData) {
+                    // Convert Firebase object to array
+                    state.songs = Object.keys(songsData).map(key => ({
+                        id: key,
+                        ...songsData[key]
+                    }));
+                    state.filteredSongs = [...state.songs];
+                    renderSongs();
+                    updateStats();
+                }
+            });
+        }
+
+        // Save song to Firebase
+        function saveSong(songData) {
+            const songsRef = database.ref('songs');
+            
+            // Show loading state
+            elements.addBtnText.classList.add("hidden");
+            elements.addBtnLoader.classList.remove("hidden");
+
+            if (state.currentEditingId) {
+                // Update existing song
+                songsRef.child(state.currentEditingId).update(songData)
+                    .then(() => {
+                        showToast("गीत सफलतापूर्वक अपडेट गरियो", "success");
+                        resetForm();
+                    })
+                    .catch(error => {
+                        showToast("त्रुटि: अपडेट गर्न असफल", "error");
+                        console.error(error);
+                    })
+                    .finally(() => {
+                        elements.addBtnText.classList.remove("hidden");
+                        elements.addBtnLoader.classList.add("hidden");
+                    });
+            } else {
+                // Add new song
+                songsRef.push(songData)
+                    .then(() => {
+                        showToast("गीत सफलतापूर्वक थपियो", "success");
+                        resetForm();
+                    })
+                    .catch(error => {
+                        showToast("त्रुटि: थप्न असफल", "error");
+                        console.error(error);
+                    })
+                    .finally(() => {
+                        elements.addBtnText.classList.remove("hidden");
+                        elements.addBtnLoader.classList.add("hidden");
+                    });
+            }
+        }
+
+        // Delete song from Firebase
+        function deleteSong(songId) {
+            database.ref('songs/' + songId).remove()
+                .then(() => {
+                    showToast("गीत लिंक मेटियो", "success");
+                })
+                .catch(error => {
+                    showToast("त्रुटि: गीत मेट्न असफल", "error");
+                    console.error(error);
+                });
+        }
+
+        // ========================
+        // CORE FUNCTIONS
+        // ========================
+
+        // Save link (now uses Firebase)
+        function saveLink() {
+            // Validate inputs
+            if (!elements.songId.value.trim()) {
+                showToast("गीत नं. आवश्यक छ", "error");
+                elements.songId.focus();
+                return;
+            }
+
+            if (!elements.mediaLink.value.trim()) {
+                showToast("YouTube लिंक आवश्यक छ", "error");
+                elements.mediaLink.focus();
+                return;
+            }
+
+            if (!isValidYouTubeLink(elements.mediaLink.value.trim())) {
+                showToast("मान्य YouTube लिंक प्रविष्ट गर्नुहोस्", "error");
+                elements.mediaLink.focus();
+                return;
+            }
+
+            const songData = {
+                songId: elements.songId.value.trim(),
+                title: elements.songTitle.value.trim() || "शीर्षक नभएको",
+                titleRoman: elements.songTitleRoman.value.trim() || "",
+                type: elements.mediaType.value,
+                link: formatYouTubeLink(elements.mediaLink.value.trim()),
+                category: elements.songCategory.value,
+                notes: elements.songNotes.value.trim(),
+                lyrics: elements.songLyrics.value.trim(),
+                updatedAt: firebase.database.ServerValue.TIMESTAMP
+            };
+
+            if (!state.currentEditingId) {
+                songData.createdAt = firebase.database.ServerValue.TIMESTAMP;
+            }
+
+            saveSong(songData);
+        }
+
+        // Edit existing link
+        function editLink(index) {
+            const song = state.filteredSongs[index];
+            
+            // Fill form with song data
+            elements.songId.value = song.songId;
+            elements.songTitle.value = song.title;
+            elements.songTitleRoman.value = song.titleRoman || "";
+            elements.mediaType.value = song.type;
+            elements.mediaLink.value = song.link;
+            elements.songCategory.value = song.category;
+            elements.songNotes.value = song.notes || "";
+            elements.songLyrics.value = song.lyrics || "";
+
+            // Change button to update mode
+            elements.addBtnText.textContent = "अपडेट गर्नुहोस्";
+            state.currentEditingId = song.id;
+
+            // Scroll to form
+            document.querySelector(".card").scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+
+        // Delete link confirmation
+        function confirmDelete(index) {
+            const song = state.filteredSongs[index];
+            showModal(
+                "लिंक मेट्नुहोस्", 
+                `तपाईं निश्चित हुनुहुन्छ कि यो गीत मेट्न चाहनुहुन्छ: ${song.title}?`, 
+                () => deleteSong(song.id)
+            );
+        }
+
+        // Play media in embedded player
+        function playMedia(index) {
+            const link = state.filteredSongs[index];
+            const embedUrl = getEmbedUrl(link.link);
+
+            elements.mediaPlayer.src = embedUrl;
+            elements.nowPlayingTitle.textContent = `${link.songId}. ${link.title}`;
+            elements.nowPlayingType.textContent = `${link.type === "audio" ? "अडियो" : "भिडियो"} • ${getCategoryName(link.category)}`;
+
+            // Display lyrics
+            elements.lyricsDisplay.textContent = link.lyrics || "यस गीतका लागि बोलीहरू उपलब्ध छैनन्";
+            elements.lyricsTitle.textContent = `${link.title} - गीत बोलीहरू`;
+
+            // Store current playing index
+            state.currentPlayingIndex = index;
+
+            // Show player
+            elements.playerSection.classList.remove("hidden");
+
+            // Scroll to player
+            setTimeout(() => {
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: "smooth"
+                });
+            }, 100);
+        }
+
+        // ========================
+        // LYRICS FUNCTIONS
+        // ========================
+
+        // Edit lyrics
+        function editLyrics() {
+            if (state.currentPlayingIndex === null) return;
+
+            const song = state.filteredSongs[state.currentPlayingIndex];
+            elements.lyricsEditor.value = song.lyrics || "";
+
+            // Switch to edit mode
+            elements.lyricsDisplay.classList.add("hidden");
+            elements.lyricsEditorContainer.classList.remove("hidden");
+            elements.lyricsViewControls.classList.add("hidden");
+        }
+
+        // Save edited lyrics
+        function saveLyrics() {
+            if (state.currentPlayingIndex === null) return;
+
+            const newLyrics = elements.lyricsEditor.value;
+            const song = state.filteredSongs[state.currentPlayingIndex];
+
+            // Update in Firebase
+            database.ref('songs/' + song.id).update({
+                lyrics: newLyrics,
+                updatedAt: firebase.database.ServerValue.TIMESTAMP
+            })
+            .then(() => {
+                showToast("गीत बोलीहरू सुरक्षित गरियो", "success");
+                
+                // Update local state
+                song.lyrics = newLyrics;
+                
+                // Update display
+                elements.lyricsDisplay.textContent = newLyrics || "यस गीतका लागि बोलीहरू उपलब्ध छैनन्";
+
+                // Switch back to view mode
+                cancelLyricsEdit();
+
+                // Update stats
+                updateStats();
+            })
+            .catch(error => {
+                showToast("त्रुटि: बोलीहरू सुरक्षित गर्न असफल", "error");
+                console.error(error);
+            });
+        }
+
+        // Cancel lyrics editing
+        function cancelLyricsEdit() {
+            elements.lyricsDisplay.classList.remove("hidden");
+            elements.lyricsEditorContainer.classList.add("hidden");
+            elements.lyricsViewControls.classList.remove("hidden");
+        }
+
+        // ========================
+        // RENDER FUNCTIONS
+        // ========================
+
+        // Render songs table with filtering
+        function renderSongs() {
+            // Filter songs based on search and filters
+            const searchTerm = elements.searchInput.value.toLowerCase();
+            const categoryFilter = elements.filterCategory.value;
+            const mediaTypeFilter = elements.filterMediaType.value;
+
+            state.filteredSongs = state.songs.filter(song => {
+                const matchesSearch =
+                    song.songId.toString().includes(searchTerm) ||
+                    song.title.toLowerCase().includes(searchTerm) ||
+                    (song.titleRoman && song.titleRoman.toLowerCase().includes(searchTerm));
+
+                const matchesCategory =
+                    categoryFilter === "all" ||
+                    song.category === categoryFilter;
+
+                const matchesMediaType =
+                    mediaTypeFilter === "all" ||
+                    song.type === mediaTypeFilter;
+
+                return matchesSearch && matchesCategory && matchesMediaType;
+            });
+
+            // Sort by song ID
+            state.filteredSongs.sort((a, b) => parseInt(a.songId) - parseInt(b.songId));
+
+            // Render table rows
+            elements.linksTableBody.innerHTML = "";
+
+            if (state.filteredSongs.length === 0) {
+                elements.linksTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center">कुनै लिंकहरू फेला परेन</td>
+                    </tr>
+                `;
+                elements.tableInfo.textContent = "0 लिंकहरू देखाइएको";
+                return;
+            }
+
+            state.filteredSongs.forEach((song, index) => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${song.songId}</td>
+                    <td>
+                        <div class="song-title">${song.title}</div>
+                        ${song.titleRoman ? `<div class="text-muted">${song.titleRoman}</div>` : ""}
+                    </td>
+                    <td>
+                        <span class="badge ${song.type === "audio" ? "badge-audio" : "badge-video"}">
+                            ${song.type === "audio" ? "अडियो" : "भिडियो"}
+                        </span>
+                    </td>
+                    <td>${getCategoryName(song.category)}</td>
+                    <td>
+                        <a href="${song.link}" target="_blank" class="text-muted">
+                            ${song.type === "audio" ? "🔊 सुन्नुहोस्" : "▶ हेर्नुहोस्"}
+                        </a>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-outline btn-sm" onclick="playMedia(${index})">
+                                play
+                            </button>
+                            <button class="btn btn-outline btn-sm" onclick="editLink(${index})">
+                                Apply
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="confirmDelete(${index})">
+                                Removed
+                            </button>
+                        </div>
+                    </td>
+                `;
+
+                elements.linksTableBody.appendChild(row);
+            });
+
+            elements.tableInfo.textContent = `${state.filteredSongs.length} लिंकहरू देखाइएको (जम्मा ${state.songs.length})`;
+        }
+
+        // Update statistics counters
+        function updateStats() {
+            const audioCount = state.songs.filter(song => song.type === "audio").length;
+            const videoCount = state.songs.filter(song => song.type === "video").length;
+            const lyricsCount = state.songs.filter(song => song.lyrics && song.lyrics.trim() !== "").length;
+
+            elements.totalSongs.textContent = state.songs.length;
+            elements.totalAudio.textContent = audioCount;
+            elements.totalVideo.textContent = videoCount;
+            elements.totalLyrics.textContent = lyricsCount;
+        }
+
+        // ========================
+        // FORM FUNCTIONS
+        // ========================
+
+        // Reset form to empty state
+        function resetForm() {
+            elements.songId.value = "";
+            elements.songTitle.value = "";
+            elements.songTitleRoman.value = "";
+            elements.mediaLink.value = "";
+            elements.songNotes.value = "";
+            elements.songLyrics.value = "";
+            elements.mediaType.value = "audio";
+            elements.songCategory.value = "worship";
+
+            elements.addBtnText.textContent = "लिंक थप्नुहोस्";
+            state.currentEditingId = null;
+        }
+
+        // ========================
+        // FILTER/SEARCH FUNCTIONS
+        // ========================
+
+        // Apply filters and refresh table
+        function applyFilters() {
+            renderSongs();
+        }
+
+        // Reset all filters
+        function resetAllFilters() {
+            elements.searchInput.value = "";
+            elements.filterCategory.value = "all";
+            elements.filterMediaType.value = "all";
+            renderSongs();
+        }
+
+        // ========================
+        // PLAYER FUNCTIONS
+        // ========================
+
+        // Close media player
+        function closePlayer() {
+            elements.mediaPlayer.src = "";
+            elements.playerSection.classList.add("hidden");
+            state.currentPlayingIndex = null;
+        }
+
+        // Play next/previous song
+        function playAdjacentSong(offset) {
+            if (state.currentPlayingIndex === null) return;
+
+            const newIndex = state.currentPlayingIndex + offset;
+            if (newIndex >= 0 && newIndex < state.filteredSongs.length) {
+                playMedia(newIndex);
+            }
+        }
+
+        // ========================
+        // HELPER FUNCTIONS
+        // ========================
+
+        // Validate YouTube URL
+        function isValidYouTubeLink(url) {
+            const patterns = [
+                /^(https?:\/\/)?(www\.)?youtube\.com\/watch\?v=[\w-]+/,
+                /^(https?:\/\/)?(www\.)?youtu\.be\/[\w-]+/,
+                /^(https?:\/\/)?(www\.)?youtube\.com\/embed\/[\w-]+/
+            ];
+            return patterns.some(pattern => pattern.test(url));
+        }
+
+        // Format YouTube URL consistently
+        function formatYouTubeLink(url) {
+            // Convert to https
+            url = url.replace("http://", "https://");
+
+            // Convert youtu.be to youtube.com
+            if (url.includes("youtu.be")) {
+                const videoId = url.split("youtu.be/")[1].split(/[?&#]/)[0];
+                return `https://www.youtube.com/watch?v=${videoId}`;
+            }
+
+            // Clean up existing watch URLs
+            if (url.includes("youtube.com/watch")) {
+                const videoId = url.split("v=")[1].split(/[?&#]/)[0];
+                return `https://www.youtube.com/watch?v=${videoId}`;
+            }
+
+            return url;
+        }
+
+        // Get embed URL from watch URL
+        function getEmbedUrl(url) {
+            let videoId = "";
+
+            if (url.includes("v=")) {
+                videoId = url.split("v=")[1].split(/[?&#]/)[0];
+            } else if (url.includes("youtu.be/")) {
+                videoId = url.split("youtu.be/")[1].split(/[?&#]/)[0];
+            }
+
+            return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+        }
+
+        // Get category name in Nepali
+        function getCategoryName(category) {
+            const categories = {
+                worship: "आराधना",
+                hymn: "भजन",
+                modern: "आधुनिक",
+                children: "बालगीत"
+            };
+            return categories[category] || category;
+        }
+
+        // ========================
+        // UI COMPONENT FUNCTIONS
+        // ========================
+
+        // Show modal dialog
+        function showModal(title, message, callback) {
+            elements.modalTitle.textContent = title;
+            elements.modalMessage.textContent = message;
+            state.modalCallback = callback;
+            elements.confirmModal.classList.add("active");
+        }
+
+        // Hide modal dialog
+        function hideModal() {
+            elements.confirmModal.classList.remove("active");
+        }
+
+        // Show toast notification
+        function showToast(message, type = "success") {
+            elements.toast.textContent = message;
+            elements.toast.className = `toast ${type}`;
+            elements.toast.classList.add("show");
+
+            setTimeout(() => {
+                elements.toast.classList.remove("show");
+            }, 3000);
+        }
+
+        // ========================
+        // EVENT LISTENERS
+        // ========================
+
+        function setupEventListeners() {
+            // Form submission
+            elements.addLinkBtn.addEventListener("click", saveLink);
+            elements.clearBtn.addEventListener("click", resetForm);
+
+            // Search and filters
+            elements.searchInput.addEventListener("input", applyFilters);
+            elements.filterCategory.addEventListener("change", applyFilters);
+            elements.filterMediaType.addEventListener("change", applyFilters);
+            elements.resetFilters.addEventListener("click", resetAllFilters);
+
+            // Player controls
+            elements.closePlayerBtn.addEventListener("click", closePlayer);
+            elements.prevSongBtn.addEventListener("click", () => playAdjacentSong(-1));
+            elements.nextSongBtn.addEventListener("click", () => playAdjacentSong(1));
+
+            // Lyrics controls
+            elements.editLyricsBtn.addEventListener("click", editLyrics);
+            elements.saveLyricsBtn.addEventListener("click", saveLyrics);
+            elements.cancelLyricsBtn.addEventListener("click", cancelLyricsEdit);
+
+            // Modal controls
+            elements.closeModalBtn.addEventListener("click", hideModal);
+            elements.cancelModalBtn.addEventListener("click", hideModal);
+            elements.confirmModalBtn.addEventListener("click", () => {
+                if (state.modalCallback) state.modalCallback();
+                hideModal();
+            });
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+
+            // Keyboard shortcuts
+            document.addEventListener("keydown", (e) => {
+                // Close modal with Escape
+                if (e.key === "Escape" && elements.confirmModal.classList.contains("active")) {
+                    hideModal();
+                }
+
+                // Play next/previous with arrow keys when player is open
+                if (!elements.playerSection.classList.contains("hidden")) {
+                    if (e.key === "ArrowRight") {
+                        playAdjacentSong(1);
+                    } else if (e.key === "ArrowLeft") {
+                        playAdjacentSong(-1);
+                    }
+                }
+            });
+        }
+
+        // Initialize the app
+        function init() {
+            checkAuth();
+            setupEventListeners();
+        }
+
+        // Start the app
+        init();
+    </script>
+</body>
+</html>
